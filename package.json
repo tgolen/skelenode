@@ -1,0 +1,26 @@
+{
+    "name": "skelenode",
+    "version": "0.0.1",
+    "description": "A full stack Node.js platform",
+    "main": "index.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tgolen/skelenode"
+    },
+    "keywords": [
+        "node.js",
+        "backbone",
+        "restify",
+        "mongoose",
+        "framework"
+    ],
+    "author": "Tim Golen <tim@golen.net>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/tgolen/skelenode/issues"
+    },
+    "homepage": "https://github.com/tgolen/skelenode"
+}
