@@ -22,7 +22,7 @@ exports.init = init;
  * @param  {Function} cb
  */
 function init(cb) {
-	glob(__dirname + '/**/+(get|post|put|delete).*.js', function(err, files) {
+	glob(__dirname + '/**/+(' + _.keys(swaggerMethodName).join('|') + ').*.js', function(err, files) {
 		if (err) return cb && cb(err);
 
 		_(files).forEach(function(file) {
