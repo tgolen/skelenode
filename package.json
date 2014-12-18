@@ -26,6 +26,9 @@
   "dependencies": {
     "chalk": "^0.5.1",
     "config": "^1.9.0",
-    "lodash": "^2.4.1"
+    "glob": "^4.3.1",
+    "lodash": "^2.4.1",
+    "restify": "^2.8.4",
+    "swagger-node-restify": "^0.1.2"
   }
 }
