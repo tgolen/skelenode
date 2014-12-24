@@ -2,9 +2,12 @@
 <html>
 	<head>
 		<title>Skelenode Home</title>
+		<link rel="stylesheet" href="//<%= host %>:<%= port %>/<%= githash %>/lib/bootstrap/dist/css/bootstrap.css">
 	</head>
 	<body>
 		<h1>Skelenode Home</h1>
+
+		<script type="text/javascript" src="//<%= host %>:<%= port %>/<%= githash %>/dist/application.min.js"></script>
 
 		<% if (env === 'development') { %>
 			<!--Livereload script rendered -->

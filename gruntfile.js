@@ -7,7 +7,6 @@ module.exports = function(grunt) {
 	var watchFiles = {
 		serverViews: ['app/views/**/*.html'],
 		serverJS: ['gruntfile.js', 'index.js', 'config/**/*.js', 'app/**/*.js'],
-		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
 		clientCSS: ['public/modules/**/*.css']
 	};
@@ -15,38 +14,33 @@ module.exports = function(grunt) {
 	// Project Configuration
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		watch: {
-			serverViews: {
-				files: watchFiles.serverViews,
+		browserify: {
+			app: {
+				src: ['public/app/**/*.js'],
+				dest: 'public/dist/application.js',
 				options: {
-					livereload: true
+					alias: [
+						'./public/lib/jquery/dist/jquery.js:jquery',
+						'./public/lib/backbone/backbone.js:backbone',
+						'./public/lib/underscore/underscore.js:underscore'
+					],
+					external: [ 'jQuery' ]
 				}
-			},
+			}
+		},
+		watch: {
 			serverJS: {
 				files: watchFiles.serverJS,
 				tasks: ['jshint'],
-				options: {
-					livereload: true
-				}
-			},
-			clientViews: {
-				files: watchFiles.clientViews,
-				options: {
-					livereload: true,
-				}
 			},
 			clientJS: {
-				files: watchFiles.clientJS,
-				tasks: ['jshint'],
-				options: {
-					livereload: true
-				}
+				files: ['public/app/**/*.js'],
+				tasks: ['jshint', 'browserify', 'uglify', 'clean']
 			},
-			clientCSS: {
-				files: watchFiles.clientCSS,
-				tasks: ['csslint'],
+			app: {
+				files: './public/dist/application.min.js',
 				options: {
-					livereload: true
+					livereload: true,
 				}
 			}
 		},
@@ -67,16 +61,12 @@ module.exports = function(grunt) {
 			}
 		},
 		concat: {
-			js: {
-				src: '<%= vendorJavaScriptFiles %>',
-				dest: 'public/dist/vendor.js'
-			},
 			css: {
 				src: '<%= vendorCSSFiles %>',
 				dest: 'public/dist/vendor.css'
 			}
 		},
-		/*clean: {
+		clean: {
 			js: ['public/dist/*.js', '!public/dist/*.min.js'],
 			css: ['public/dist/*.css', '!public/dist/*.min.css']
 		},
@@ -86,11 +76,11 @@ module.exports = function(grunt) {
 					mangle: false
 				},
 				files: {
-					'public/dist/vendor.min.js': 'public/dist/vendor.js'
+					'public/dist/application.min.js': 'public/dist/application.js'
 				}
 			}
 		},
-		cssmin: {
+		/*cssmin: {
 			combine: {
 				files: {
 					'public/dist/vendor.min.css': '<%= vendorCSSFiles %>'
@@ -121,8 +111,8 @@ module.exports = function(grunt) {
 			}
 		},
 		concurrent: {
-			default: ['nodemon', 'watch'],
-			debug: ['nodemon', 'watch', 'node-inspector'],
+			default: ['nodemon', 'browserify', 'watch'],
+			debug: ['nodemon', 'browserify', 'watch', 'node-inspector'],
 			options: {
 				logConcurrentOutput: true,
 				limit: 10

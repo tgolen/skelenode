@@ -9,6 +9,7 @@ module.exports = function(req, res, next) {
 	var body = compiledTemplate({
 		env: config.get('env'),
 		host: config.get('host'),
+		port: config.get('port'),
 		githash: config.get('githash')
 	});
 	res.writeHead(200, {
