@@ -8,7 +8,8 @@ var fs = require('fs'),
 module.exports = function(req, res, next) {
 	var body = compiledTemplate({
 		env: config.get('env'),
-		host: config.get('host')
+		host: config.get('host'),
+		githash: config.get('githash')
 	});
 	res.writeHead(200, {
 		'Content-Length': Buffer.byteLength(body),

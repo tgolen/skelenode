@@ -32,7 +32,22 @@ if (config.get('logger.audit.enabled')) {
 	}));
 }
 
+// server our index file on root
 app.get('/', require('./app/views/index'));
+
+// replace the githash in URLs so that the githash doesn't
+// have to be an actual directory
+app.use(function(req, res, next) {
+	req.url = req.url.replace('/'+config.get('githash')+'/', '');
+	next();
+});
+
+// server our static files via our githash so they are version
+// controlled
+var githashRegex = new RegExp('\/'+config.get('githash')+'\/.*');
+app.get(githashRegex, restify.serveStatic({
+	directory: __dirname + '/public'
+}));
 
 // configure swagger
 swagger.setAppHandler(app);
