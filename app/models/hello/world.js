@@ -1,7 +1,8 @@
+'use strict';
 var SkelenodeModel = require('skelenode-model');
 
 module.exports = function(options) {
-	var Model = SkelenodeModel(options);
+	var Model = new SkelenodeModel(options);
 
 	Model.setSwagger('read', {
 			method: 'GET',
