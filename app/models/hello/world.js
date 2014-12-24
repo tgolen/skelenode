@@ -4,7 +4,7 @@ var SkelenodeModel = require('skelenode-model');
 module.exports = function(options) {
 	var Model = new SkelenodeModel(options);
 
-	Model.setSwagger('read', {
+	Model.setSwagger({
 			method: 'GET',
 			path: '/api/v1/hello/world',
 			nickname: 'hello_world'
