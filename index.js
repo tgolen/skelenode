@@ -32,6 +32,8 @@ if (config.get('logger.audit.enabled')) {
 	}));
 }
 
+app.get('/', require('./app/views/index'));
+
 // configure swagger
 swagger.setAppHandler(app);
 swagger.configure('http://petstore.swagger.wordnik.com', '0.1');

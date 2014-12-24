@@ -1,4 +1,5 @@
 'use strict';
+
 var SkelenodeModel = require('skelenode-model');
 
 module.exports = function(options) {
