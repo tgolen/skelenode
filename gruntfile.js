@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 	// Unified Watch Object
 	var watchFiles = {
 		serverViews: ['app/views/**/*.*'],
-		serverJS: ['gruntfile.js', 'app.js', 'config/**/*.js', 'app/**/*.js'],
+		serverJS: ['gruntfile.js', 'index.js', 'config/**/*.js', 'app/**/*.js'],
 		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
 		clientCSS: ['public/modules/**/*.css']
@@ -137,19 +137,10 @@ module.exports = function(grunt) {
 
 	// A Task for loading the configuration object
 	grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function() {
-		var assets = require('./config/assets').getAssets(),
-			jsAssets = [],
-			cssAssets = [];
+		var assets = require('./config/assets').getAssets();
 
-		_(assets).forEach(function(asset) {
-			switch (_(asset.split('.')).last().toLowerCase()) {
-				case 'js': jsAssets.push(asset); break;
-				case 'css': cssAssets.push(asset);
-			}
-		});
-
-		grunt.config.set('applicationJavaScriptFiles', jsAssets);
-		grunt.config.set('applicationCSSFiles', cssAssets);
+		grunt.config.set('applicationJavaScriptFiles', assets.js);
+		grunt.config.set('applicationCSSFiles', assets.css);
 	});
 
 	// Default task(s).

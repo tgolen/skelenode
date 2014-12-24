@@ -5,25 +5,36 @@
  */
 var _ = require('lodash'),
 	glob = require('glob'),
-	bowerJson = require('../bower.json'),
-	bowerLibs = [],
-	libFiles = [],
+	path = require('path'),
+	libFiles = {},
 	appFiles = [];
 
-// get all the JS and CSS files from our installed libraries
-_(bowerJson.dependencies).forEach(function(dependency, name) {
-	var bowerLib = require('../public/lib/'+name+'/.bower'),
-		mainFiles = [];
+var bowerJsonFiles = glob.sync('public/lib/*/.bower.json');
 
+_(bowerJsonFiles).forEach(function(bowerJsonFile) {
+	var bowerJson = require(path.join('..', bowerJsonFile)),
+		bowerDir = bowerJsonFile.replace('.bower.json', ''),
+		mainJsFiles = [],
+		mainCssFiles = [];
 	// only get our js and css files from the bower "main" attribute
-	if (bowerLib && bowerLib.main) {
-		_(bowerLib.main).forEach(function(mainFile) {
-			if ([ 'js', 'css' ].indexOf(_(mainFile.split('.')).last()) > -1) {
-				mainFiles.push('public/lib/'+name+'/' + mainFile);
+	if (bowerJson && bowerJson.main) {
+		if (typeof bowerJson.main === 'string') {
+			var mainFile = bowerJson.main;
+			switch (_(mainFile.split('.')).last().toLowerCase()) {
+				case 'js': mainJsFiles.push(bowerDir + mainFile); break;
+				case 'css': mainCssFiles.push(bowerDir + mainFile); break;
 			}
-		});
+		} else {
+			_(bowerJson.main).forEach(function(mainFile) {
+				switch (_(mainFile.split('.')).last().toLowerCase()) {
+					case 'js': mainJsFiles.push(bowerDir + mainFile); break;
+					case 'css': mainCssFiles.push(bowerDir + mainFile); break;
+				}
+			});
+		}
 	}
-	libFiles = _.union(libFiles, mainFiles);
+	libFiles.js = _.union(libFiles.js || [], mainJsFiles);
+	libFiles.css = _.union(libFiles.css || [], mainCssFiles);
 });
 
 /**
@@ -65,6 +76,8 @@ module.exports.getGlobbedFiles = function(globPatterns, removeRoot) {
  * Get all of our JS and CSS assets
  */
 module.exports.getAssets = function() {
-	var output = this.getGlobbedFiles(libFiles);
-	return output;
+	return {
+		js: this.getGlobbedFiles(libFiles.js),
+		css: this.getGlobbedFiles(libFiles.css)
+	};
 };
