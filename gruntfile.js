@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 module.exports = function(grunt) {
 	// Unified Watch Object
 	var watchFiles = {
@@ -64,6 +66,19 @@ module.exports = function(grunt) {
 				src: watchFiles.clientCSS
 			}
 		},
+		concat: {
+			options: {
+				separator: ';'
+			},
+			dist: {
+				src: '<%= applicationJavaScriptFiles %>',
+				dest: 'public/dist/application.js'
+			}
+		},
+		clean: {
+			js: ['public/dist/*.js', '!public/dist/*.min.js'],
+			css: ['public/dist/*.css', '!public/dist/*.min.css']
+		},
 		uglify: {
 			production: {
 				options: {
@@ -120,14 +135,22 @@ module.exports = function(grunt) {
 	// Making grunt default to force in order not to break the project.
 	grunt.option('force', true);
 
-	/*/ A Task for loading the configuration object
+	// A Task for loading the configuration object
 	grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function() {
-		var init = require('./config/init')();
-		var config = require('./config/config');
+		var assets = require('./config/assets').getAssets(),
+			jsAssets = [],
+			cssAssets = [];
 
-		grunt.config.set('applicationJavaScriptFiles', config.assets.js);
-		grunt.config.set('applicationCSSFiles', config.assets.css);
-	});*/
+		_(assets).forEach(function(asset) {
+			switch (_(asset.split('.')).last().toLowerCase()) {
+				case 'js': jsAssets.push(asset); break;
+				case 'css': cssAssets.push(asset);
+			}
+		});
+
+		grunt.config.set('applicationJavaScriptFiles', jsAssets);
+		grunt.config.set('applicationCSSFiles', cssAssets);
+	});
 
 	// Default task(s).
 	grunt.registerTask('default', ['lint', 'concurrent:default']);
@@ -139,5 +162,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('lint', ['jshint', 'csslint']);
 
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['lint', 'loadConfig', 'concat', 'uglify', 'cssmin', 'clean']);
 };
