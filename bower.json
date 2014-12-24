@@ -1,8 +1,9 @@
 {
-	"name": "skelenode",
-	"version": "0.0.1",
-	"description": "A full stack Node.js platform",
-	"dependencies": {
-		"bootstrap": "~3"
-	}
+  "name": "skelenode",
+  "version": "0.0.1",
+  "description": "A full stack Node.js platform",
+  "dependencies": {
+    "bootstrap": "~3",
+    "marionette": "~2.3.0"
+  }
 }

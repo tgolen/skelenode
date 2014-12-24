@@ -5,7 +5,7 @@ var _ = require('lodash');
 module.exports = function(grunt) {
 	// Unified Watch Object
 	var watchFiles = {
-		serverViews: ['app/views/**/*.*'],
+		serverViews: ['app/views/**/*.html'],
 		serverJS: ['gruntfile.js', 'index.js', 'config/**/*.js', 'app/**/*.js'],
 		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
@@ -67,15 +67,16 @@ module.exports = function(grunt) {
 			}
 		},
 		concat: {
-			options: {
-				separator: ';'
+			js: {
+				src: '<%= vendorJavaScriptFiles %>',
+				dest: 'public/dist/vendor.js'
 			},
-			dist: {
-				src: '<%= applicationJavaScriptFiles %>',
-				dest: 'public/dist/application.js'
+			css: {
+				src: '<%= vendorCSSFiles %>',
+				dest: 'public/dist/vendor.css'
 			}
 		},
-		clean: {
+		/*clean: {
 			js: ['public/dist/*.js', '!public/dist/*.min.js'],
 			css: ['public/dist/*.css', '!public/dist/*.min.css']
 		},
@@ -85,17 +86,17 @@ module.exports = function(grunt) {
 					mangle: false
 				},
 				files: {
-					'public/dist/application.min.js': 'public/dist/application.js'
+					'public/dist/vendor.min.js': 'public/dist/vendor.js'
 				}
 			}
 		},
 		cssmin: {
 			combine: {
 				files: {
-					'public/dist/application.min.css': '<%= applicationCSSFiles %>'
+					'public/dist/vendor.min.css': '<%= vendorCSSFiles %>'
 				}
 			}
-		},
+		},*/
 		nodemon: {
 			dev: {
 				script: 'index.js',
@@ -139,8 +140,8 @@ module.exports = function(grunt) {
 	grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function() {
 		var assets = require('./config/assets').getAssets();
 
-		grunt.config.set('applicationJavaScriptFiles', assets.js);
-		grunt.config.set('applicationCSSFiles', assets.css);
+		grunt.config.set('vendorJavaScriptFiles', assets.js);
+		grunt.config.set('vendorCSSFiles', assets.css);
 	});
 
 	// Default task(s).
@@ -153,5 +154,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('lint', ['jshint', 'csslint']);
 
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'loadConfig', 'concat', 'uglify', 'cssmin', 'clean']);
+	grunt.registerTask('build', ['lint', 'loadConfig', 'concat'/*, 'uglify', 'cssmin', 'clean'*/]);
 };

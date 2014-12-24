@@ -5,5 +5,10 @@
 	</head>
 	<body>
 		<h1>Skelenode Home</h1>
+
+		<% if (env === 'development') { %>
+			<!--Livereload script rendered -->
+			<script type="text/javascript" src="//<%= host %>:35729/livereload.js"></script>
+		<% } %>
 	</body>
 </html>
