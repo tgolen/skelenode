@@ -9,7 +9,7 @@ var chalk = require('chalk'),
 	restify = require('restify'),
 	bunyan = require('bunyan'),
 	swagger = require('swagger-node-restify'),
-	routes = require('./app/routes/index');
+	skelenodeModelLoader = require('skelenode-model-loader');
 
 // create our server
 var app = restify.createServer({
@@ -37,8 +37,8 @@ swagger.setAppHandler(app);
 swagger.configure('http://petstore.swagger.wordnik.com', '0.1');
 swagger.configureSwaggerPaths('', '/api-docs', '');
 
-// add all of our routes to swagger
-routes.init();
+// load all of our models
+skelenodeModelLoader.init(__dirname + '/app/models');
 
 // startup our server
 app.listen(config.get('port'));

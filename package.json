@@ -30,6 +30,7 @@
     "glob": "^4.3.1",
     "lodash": "^2.4.1",
     "restify": "^2.8.4",
-    "swagger-node-restify": "^0.1.2"
+    "swagger-node-restify": "^0.1.2",
+    "underscore": "^1.7.0"
   }
 }
