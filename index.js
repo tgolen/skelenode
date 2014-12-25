@@ -34,7 +34,7 @@ if (config.get('logger.audit.enabled')) {
 	}));
 }
 
-// server our index file on root
+// serve our index file on root
 app.get('/', require('./app/views/index'));
 
 // replace the githash in URLs so that the githash doesn't
