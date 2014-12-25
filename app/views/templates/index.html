@@ -4,10 +4,12 @@
 		<link rel="stylesheet" href="//<%= host %>:<%= port %>/<%= githash %>/lib/bootstrap/dist/css/bootstrap.css">
 	</head>
 	<body>
-		<script type="text/javascript" src="//<%= host %>:<%= port %>/<%= githash %>/dist/application.min.js"></script>
 		<% if (env === 'development') { %>
+			<script type="text/javascript" src="//<%= host %>:<%= port %>/<%= githash %>/dist/application.js"></script>
 			<!--Livereload script rendered -->
 			<script type="text/javascript" src="//<%= host %>:35729/livereload.js"></script>
+		<% } else { %>
+			<script type="text/javascript" src="//<%= host %>:<%= port %>/<%= githash %>/dist/application.min.js"></script>
 		<% } %>
 	</body>
 </html>

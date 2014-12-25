@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 			},
 			clientJS: {
 				files: ['public/app/**/*.js'],
-				tasks: ['jshint', 'browserify', 'uglify', 'clean']
+				tasks: ['jshint', 'browserify', 'uglify:dev', 'clean:dev']
 			},
 			app: {
 				files: './public/dist/application.min.js',
@@ -66,10 +66,14 @@ module.exports = function(grunt) {
 			}
 		},
 		clean: {
-			js: ['public/dist/*.js', '!public/dist/*.min.js'],
-			css: ['public/dist/*.css', '!public/dist/*.min.css']
+			dev: {},
+			production: {
+				js: ['public/dist/*.js', '!public/dist/*.min.js'],
+				css: ['public/dist/*.css', '!public/dist/*.min.css']
+			}
 		},
 		uglify: {
+			dev: {},
 			production: {
 				options: {
 					mangle: false
