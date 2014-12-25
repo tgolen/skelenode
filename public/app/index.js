@@ -8,4 +8,4 @@ window.jQuery = $;
 var M = require('../lib/marionette/lib/backbone.marionette'),
 	B = require('../lib/bootstrap/dist/js/bootstrap');
 
-console.log('app started!7');
+console.log('app started!8');

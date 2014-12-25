@@ -8,6 +8,7 @@ var chalk = require('chalk'),
 	config = require('config'),
 	restify = require('restify'),
 	bunyan = require('bunyan'),
+	morgan = require('morgan'),
 	swagger = require('swagger-node-restify'),
 	skelenodeModelLoader = require('skelenode-model-loader');
 
@@ -21,6 +22,7 @@ var app = restify.createServer({
 
 // add appropriate middleware
 app.use(restify.bodyParser());
+app.use(morgan('dev'));
 
 // turn on an audit logger if we need to
 if (config.get('logger.audit.enabled')) {

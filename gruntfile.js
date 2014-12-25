@@ -23,8 +23,7 @@ module.exports = function(grunt) {
 						'./public/lib/jquery/dist/jquery.js:jquery',
 						'./public/lib/backbone/backbone.js:backbone',
 						'./public/lib/underscore/underscore.js:underscore'
-					],
-					external: [ 'jQuery' ]
+					]
 				}
 			}
 		},
