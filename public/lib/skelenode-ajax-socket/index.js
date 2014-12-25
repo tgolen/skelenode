@@ -34,6 +34,7 @@ window.onbeforeunload = function(e) {
  */
 function connectSocket() {
 	window.socketStatus = socketConnecting;
+	return;
 
 	var socket = window.socket = io.connect(window.location.origin, { secure: !!~window.location.protocol.indexOf('https') });
 	socket.on('connect', function() {

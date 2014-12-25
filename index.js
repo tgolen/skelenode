@@ -9,6 +9,7 @@ var chalk = require('chalk'),
 	restify = require('restify'),
 	bunyan = require('bunyan'),
 	morgan = require('morgan'),
+	socketio = require('socket.io'),
 	swagger = require('swagger-node-restify'),
 	skelenodeModelLoader = require('skelenode-model-loader');
 
@@ -33,6 +34,9 @@ if (config.get('logger.audit.enabled')) {
 		})
 	}));
 }
+
+// setup socket.io
+var io = socketio.listen(app.server);
 
 // serve our index file on root
 app.get('/', require('./app/views/index'));

@@ -4,6 +4,7 @@
 		<link rel="stylesheet" href="//<%= host %>:<%= port %>/<%= githash %>/lib/bootstrap/dist/css/bootstrap.css">
 	</head>
 	<body>
+		<script src="//<%= host %>:<%= port %>/socket.io/socket.io.js"></script>
 		<% if (env === 'development') { %>
 			<script type="text/javascript" src="//<%= host %>:<%= port %>/<%= githash %>/dist/application.js"></script>
 			<!--Livereload script rendered -->
