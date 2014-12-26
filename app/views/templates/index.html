@@ -6,9 +6,10 @@
 	<body>
 		<section class="container" style="margin-top: 50px;">
 			<div class="jumbotron">
-				<button class="btn btn-primary">XHR Request</button>
-				<button class="btn btn-info">Socket Request</button>
-				<button class="btn btn-warning">Bad Socket Request</button>
+				<button class="btn btn-primary" data-action="xhr-request">XHR Request</button>
+				<button class="btn btn-warning" data-action="bad-xhr-request">Bad XHR Request</button>
+				<button class="btn btn-info" data-action="socket-request">Socket Request</button>
+				<button class="btn btn-warning" data-action="bad-socket-request">Bad Socket Request</button>
 			</div>
 		</section>
 		<script src="//<%= host %>:<%= port %>/socket.io/socket.io.js"></script>

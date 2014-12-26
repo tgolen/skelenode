@@ -191,12 +191,14 @@ function curryMethod(method) {
 				callback(data);
 			});
 			ajax.fail(function(data) {
-				data = data.responseText;
 				try {
-					data = JSON.parse(data);
+					data = {
+						success: false,
+						code: data.status,
+						result: JSON.parse(data.responseText).message
+					};
 				}
-				catch (err) {
-				}
+				catch (e) {}
 				callback(data);
 			});
 		}

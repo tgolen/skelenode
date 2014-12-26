@@ -17,15 +17,21 @@ API.connectSocket();
 console.log('app started!');
 
 // make an xhr request
-$('.btn-primary').on('click', function() {
+$('[data-action="xhr-request"]').on('click', function() {
 	console.log('primary click');
 	API.get('hello/world', null, { disallowSocket: true }, function(data) {
 		console.log(data);
 	});
 });
+$('[data-action="bad-xhr-request"]').on('click', function() {
+	console.log('primary click');
+	API.get('hello/world2', null, { disallowSocket: true }, function(data) {
+		console.log(data);
+	});
+});
 
 // make a socket request
-$('.btn-info').on('click', function() {
+$('[data-action="socket-request"]').on('click', function() {
 	console.log('info click');
 	API.get('hello/world', function(data) {
 		console.log(data);
@@ -33,7 +39,7 @@ $('.btn-info').on('click', function() {
 });
 
 // make a bad socket request
-$('.btn-warning').on('click', function() {
+$('[data-action="bad-socket-request"]').on('click', function() {
 	console.log('bad click');
 	API.get('hello/world2', function(data) {
 		console.log(data);
