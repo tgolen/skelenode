@@ -8,6 +8,13 @@ module.exports = {
 	port: 80,
 	env: process.env.NODE_ENV || 'development',
 	githash: hash.substring(0,7),
+	db: {
+		redis: {
+			port: 6379,
+			host: '127.0.0.1',
+			password: null
+		}
+	},
 	logger: {
 		audit: {
 			enabled: false
