@@ -162,7 +162,7 @@ function curryMethod(method) {
 			// We've got a socket! Emit to it.
 			window.socket.emit('api', {
 				method: method,
-				url: url,
+				url: url.replace('/api/'+version+'//', '/api/'+version+'/'),
 				data: data
 			}, function(data) {
 				if (callback) {
