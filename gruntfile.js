@@ -33,8 +33,14 @@ module.exports = function(grunt) {
 				tasks: ['jshint'],
 			},
 			clientJS: {
-				files: ['public/app/**/*.js'],
-				tasks: ['jshint', 'browserify', 'uglify:dev', 'clean:dev']
+				files: [
+					'public/app/**/*.js',
+					'public/lib/**/*.js'
+				],
+				tasks: ['jshint', 'browserify', 'uglify:dev', 'clean:dev'],
+				options: {
+					livereload: true,
+				}
 			},
 			app: {
 				files: './public/dist/application.min.js',

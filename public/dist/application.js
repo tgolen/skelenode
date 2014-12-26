@@ -9,14 +9,30 @@ var $ = require('jquery'),
 BB.$ = $;
 window.jQuery = $;
 
-var API = require('../lib/skelenode-ajax-socket');
+var API = require('../lib/skelenode-xhr-socket');
 API.connectSocket();
 
 /*var M = require('../lib/marionette/lib/backbone.marionette'),
 	B = require('../lib/bootstrap/dist/js/bootstrap');*/
 
-console.log('app started!11');
-},{"../lib/skelenode-ajax-socket":2,"backbone":"backbone","jquery":"jquery"}],2:[function(require,module,exports){
+console.log('app started!12');
+
+// make an xhr request
+$('.btn-primary').on('click', function() {
+	console.log('primary click');
+	API.get('hello/world', null, { disallowSocket: true }, function(data) {
+		console.log(data);
+	});
+});
+
+// make a socket request
+$('.btn-info').on('click', function() {
+	console.log('info click');
+	API.get('/hello/world', function(data) {
+		console.log(data);
+	});
+});
+},{"../lib/skelenode-xhr-socket":2,"backbone":"backbone","jquery":"jquery"}],2:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -161,20 +177,65 @@ function unsubscribe(where, event) {
  */
 function curryMethod(method) {
 	return function (url, data, options, callback) {
-			var version = (options && options.version)? 'v' + options.version: 'v1';
-			url = '/api/' + version + '/' + url;
+console.log('test1');
+		var version = (options && options.version)? 'v' + options.version: 'v1';
+		url = '/api/' + version + '/' + url;
 
-			if (_.isFunction(options)) {
-				callback = options;
-				options = undefined;
-			}
-			if (!options) {
-				options = {};
-			}
-			if (_.isFunction(data)) {
-				callback = data;
-				data = undefined;
-			}
+		if (_.isFunction(options)) {
+			callback = options;
+			options = undefined;
+		}
+		if (!options) {
+			options = {};
+		}
+		if (_.isFunction(data)) {
+			callback = data;
+			data = undefined;
+		}
+console.log('test2', options, window.socketStatus);
+		if (!options.disallowSocket && window.socketStatus === socketConnected) {
+			// We've got a socket! Emit to it.
+			window.socket.emit('api', {
+				method: method,
+				url: url,
+				data: data
+			}, function(data) {
+				if (callback) {
+					callback(data);
+				}
+			});
+			// And stop execution.
+			return;
+		}
+console.log('test3');
+		var req = {
+			type: method,
+			url: url,
+			data: data,
+			headers: {}
+		};
+		if (!callback) {
+			req.headers['use-bare-response'] = true;
+		}
+console.log('test4', req);
+		var ajax = $.ajax(req);
+		if (callback) {
+			ajax.done(function(data) {
+				if (data.jsonh) {
+					data.result = jsonh.unpack(data.result);
+				}
+				callback(data);
+			});
+			ajax.fail(function(data) {
+				data = data.responseText;
+				try {
+					data = JSON.parse(data);
+				}
+				catch (err) {
+				}
+				callback(data);
+			});
+		}
 	};
 }
 },{"backbone":"backbone","jquery":"jquery","underscore":"underscore"}],"backbone":[function(require,module,exports){

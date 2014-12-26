@@ -34,7 +34,6 @@ window.onbeforeunload = function(e) {
  */
 function connectSocket() {
 	window.socketStatus = socketConnecting;
-	return;
 
 	var socket = window.socket = io.connect(window.location.origin, { secure: !!~window.location.protocol.indexOf('https') });
 	socket.on('connect', function() {
@@ -143,19 +142,64 @@ function unsubscribe(where, event) {
  */
 function curryMethod(method) {
 	return function (url, data, options, callback) {
-			var version = (options && options.version)? 'v' + options.version: 'v1';
-			url = '/api/' + version + '/' + url;
+console.log('test1');
+		var version = (options && options.version)? 'v' + options.version: 'v1';
+		url = '/api/' + version + '/' + url;
 
-			if (_.isFunction(options)) {
-				callback = options;
-				options = undefined;
-			}
-			if (!options) {
-				options = {};
-			}
-			if (_.isFunction(data)) {
-				callback = data;
-				data = undefined;
-			}
+		if (_.isFunction(options)) {
+			callback = options;
+			options = undefined;
+		}
+		if (!options) {
+			options = {};
+		}
+		if (_.isFunction(data)) {
+			callback = data;
+			data = undefined;
+		}
+console.log('test2', options, window.socketStatus);
+		if (!options.disallowSocket && window.socketStatus === socketConnected) {
+			// We've got a socket! Emit to it.
+			window.socket.emit('api', {
+				method: method,
+				url: url,
+				data: data
+			}, function(data) {
+				if (callback) {
+					callback(data);
+				}
+			});
+			// And stop execution.
+			return;
+		}
+console.log('test3');
+		var req = {
+			type: method,
+			url: url,
+			data: data,
+			headers: {}
+		};
+		if (!callback) {
+			req.headers['use-bare-response'] = true;
+		}
+console.log('test4', req);
+		var ajax = $.ajax(req);
+		if (callback) {
+			ajax.done(function(data) {
+				if (data.jsonh) {
+					data.result = jsonh.unpack(data.result);
+				}
+				callback(data);
+			});
+			ajax.fail(function(data) {
+				data = data.responseText;
+				try {
+					data = JSON.parse(data);
+				}
+				catch (err) {
+				}
+				callback(data);
+			});
+		}
 	};
 }

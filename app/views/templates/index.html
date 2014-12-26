@@ -4,6 +4,12 @@
 		<link rel="stylesheet" href="//<%= host %>:<%= port %>/<%= githash %>/lib/bootstrap/dist/css/bootstrap.css">
 	</head>
 	<body>
+		<section class="container" style="margin-top: 50px;">
+			<div class="jumbotron">
+				<button class="btn btn-primary">XHR Request</button>
+				<button class="btn btn-info">Socket Request</button>
+			</div>
+		</section>
 		<script src="//<%= host %>:<%= port %>/socket.io/socket.io.js"></script>
 		<% if (env === 'development') { %>
 			<script type="text/javascript" src="//<%= host %>:<%= port %>/<%= githash %>/dist/application.js"></script>
