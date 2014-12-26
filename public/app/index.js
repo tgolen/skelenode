@@ -14,7 +14,7 @@ API.connectSocket();
 /*var M = require('../lib/marionette/lib/backbone.marionette'),
 	B = require('../lib/bootstrap/dist/js/bootstrap');*/
 
-console.log('app started!12');
+console.log('app started!');
 
 // make an xhr request
 $('.btn-primary').on('click', function() {
@@ -27,7 +27,15 @@ $('.btn-primary').on('click', function() {
 // make a socket request
 $('.btn-info').on('click', function() {
 	console.log('info click');
-	API.get('/hello/world', function(data) {
+	API.get('hello/world', function(data) {
+		console.log(data);
+	});
+});
+
+// make a bad socket request
+$('.btn-warning').on('click', function() {
+	console.log('bad click');
+	API.get('hello/world2', function(data) {
 		console.log(data);
 	});
 });

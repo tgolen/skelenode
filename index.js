@@ -9,9 +9,9 @@ var chalk = require('chalk'),
 	restify = require('restify'),
 	bunyan = require('bunyan'),
 	morgan = require('morgan'),
-	socketio = require('socket.io'),
 	swagger = require('swagger-node-restify'),
-	skelenodeModelLoader = require('skelenode-model-loader');
+	skelenodeModelLoader = require('skelenode-model-loader'),
+	skelenodeSocketXHR = require('skelenode-socket-xhr');
 
 // create our server
 var app = restify.createServer({
@@ -25,6 +25,9 @@ var app = restify.createServer({
 app.use(restify.bodyParser());
 app.use(morgan('dev'));
 
+// setup our socket XHR handler
+skelenodeSocketXHR(app);
+
 // turn on an audit logger if we need to
 if (config.get('logger.audit.enabled')) {
 	app.on('after', restify.auditLogger({
@@ -34,9 +37,6 @@ if (config.get('logger.audit.enabled')) {
 		})
 	}));
 }
-
-// setup socket.io
-var io = socketio.listen(app.server);
 
 // serve our index file on root
 app.get('/', require('./app/views/index'));

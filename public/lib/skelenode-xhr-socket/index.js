@@ -142,7 +142,6 @@ function unsubscribe(where, event) {
  */
 function curryMethod(method) {
 	return function (url, data, options, callback) {
-console.log('test1');
 		var version = (options && options.version)? 'v' + options.version: 'v1';
 		url = '/api/' + version + '/' + url;
 
@@ -157,7 +156,7 @@ console.log('test1');
 			callback = data;
 			data = undefined;
 		}
-console.log('test2', options, window.socketStatus);
+
 		if (!options.disallowSocket && window.socketStatus === socketConnected) {
 			// We've got a socket! Emit to it.
 			window.socket.emit('api', {
@@ -172,7 +171,7 @@ console.log('test2', options, window.socketStatus);
 			// And stop execution.
 			return;
 		}
-console.log('test3');
+
 		var req = {
 			type: method,
 			url: url,
@@ -182,7 +181,7 @@ console.log('test3');
 		if (!callback) {
 			req.headers['use-bare-response'] = true;
 		}
-console.log('test4', req);
+
 		var ajax = $.ajax(req);
 		if (callback) {
 			ajax.done(function(data) {
