@@ -32,7 +32,7 @@ window.onbeforeunload = function(e) {
  *
  * @return {void}
  */
-function connectSocket() {
+function connectSocket(cb) {
 	window.socketStatus = socketConnecting;
 
 	var socket = window.socket = io.connect(window.location.origin, { secure: !!~window.location.protocol.indexOf('https') });
@@ -40,6 +40,7 @@ function connectSocket() {
 		window.socketStatus = socketConnected;
 		// Reconnected? Sweet! Restore our subscriptions.
 		restoreSubscriptionsTimeout = setTimeout(_restoreSubscriptions, 1);
+		cb && cb();
 	});
 	socket.on('message.published', _message);
 	socket.on('disconnect', function() {
@@ -55,7 +56,7 @@ function _wrappedAJAX(options) {
 	}
 
 	var method = (options.type || 'GET').toLowerCase(),
-		version = (options && options.version)? 'v' + options.version: 'v1';
+		version = (options && options.version)? 'v' + options.version: 'v1',
 		url = options.url.split('/api/' + version + '/').pop(),
 		data = options.data;
 
@@ -63,7 +64,7 @@ function _wrappedAJAX(options) {
 		data = JSON.parse(data);
 	}
 
-	return module.exports[method](url, data, { disallowJsonh: this.disallowJsonh }, function(evt) {
+	return module.exports[method](url, data, null, function(evt) {
 		var fakeXHR = { setRequestHeader: function() {} }
 		if (evt.success) {
 			options.success(evt.result, 'success', fakeXHR);

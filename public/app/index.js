@@ -9,7 +9,19 @@ BB.$ = $;
 window.jQuery = $;
 
 var API = require('../lib/skelenode-xhr-socket');
-API.connectSocket();
+API.connectSocket(function() {
+	console.log('socket connected!');
+
+	var testModel = BB.Model.extend({
+		url: '/hello/world'
+	});
+	var myModel = new testModel();
+	myModel.fetch({
+		success: function() {
+			console.log('model fetched!', myModel);
+		}
+	});
+});
 
 /*var M = require('../lib/marionette/lib/backbone.marionette'),
 	B = require('../lib/bootstrap/dist/js/bootstrap');*/
@@ -23,6 +35,8 @@ $('[data-action="xhr-request"]').on('click', function() {
 		console.log(data);
 	});
 });
+
+// make a bad xhr request
 $('[data-action="bad-xhr-request"]').on('click', function() {
 	console.log('primary click');
 	API.get('hello/world2', null, { disallowSocket: true }, function(data) {

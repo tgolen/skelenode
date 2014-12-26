@@ -10,7 +10,19 @@ BB.$ = $;
 window.jQuery = $;
 
 var API = require('../lib/skelenode-xhr-socket');
-API.connectSocket();
+API.connectSocket(function() {
+	console.log('socket connected!');
+
+	var testModel = BB.Model.extend({
+		url: '/hello/world'
+	});
+	var myModel = new testModel();
+	myModel.fetch({
+		success: function() {
+			console.log('model fetched!', myModel);
+		}
+	});
+});
 
 /*var M = require('../lib/marionette/lib/backbone.marionette'),
 	B = require('../lib/bootstrap/dist/js/bootstrap');*/
@@ -24,6 +36,8 @@ $('[data-action="xhr-request"]').on('click', function() {
 		console.log(data);
 	});
 });
+
+// make a bad xhr request
 $('[data-action="bad-xhr-request"]').on('click', function() {
 	console.log('primary click');
 	API.get('hello/world2', null, { disallowSocket: true }, function(data) {
@@ -81,7 +95,7 @@ window.onbeforeunload = function(e) {
  *
  * @return {void}
  */
-function connectSocket() {
+function connectSocket(cb) {
 	window.socketStatus = socketConnecting;
 
 	var socket = window.socket = io.connect(window.location.origin, { secure: !!~window.location.protocol.indexOf('https') });
@@ -89,6 +103,7 @@ function connectSocket() {
 		window.socketStatus = socketConnected;
 		// Reconnected? Sweet! Restore our subscriptions.
 		restoreSubscriptionsTimeout = setTimeout(_restoreSubscriptions, 1);
+		cb && cb();
 	});
 	socket.on('message.published', _message);
 	socket.on('disconnect', function() {
@@ -104,7 +119,7 @@ function _wrappedAJAX(options) {
 	}
 
 	var method = (options.type || 'GET').toLowerCase(),
-		version = (options && options.version)? 'v' + options.version: 'v1';
+		version = (options && options.version)? 'v' + options.version: 'v1',
 		url = options.url.split('/api/' + version + '/').pop(),
 		data = options.data;
 
@@ -112,7 +127,7 @@ function _wrappedAJAX(options) {
 		data = JSON.parse(data);
 	}
 
-	return module.exports[method](url, data, { disallowJsonh: this.disallowJsonh }, function(evt) {
+	return module.exports[method](url, data, null, function(evt) {
 		var fakeXHR = { setRequestHeader: function() {} }
 		if (evt.success) {
 			options.success(evt.result, 'success', fakeXHR);

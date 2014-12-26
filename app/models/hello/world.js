@@ -10,7 +10,7 @@ module.exports = function(options) {
 			path: '/api/v1/hello/world',
 			nickname: 'hello_world'
 		}, function(req, res, next) {
-			Model.swr.success('Hello World!', res);
+			Model.swr.success({ msg: 'Hello World!' }, res);
 			next();
 		});
 
