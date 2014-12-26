@@ -26,7 +26,7 @@ app.use(restify.bodyParser());
 app.use(morgan('dev'));
 
 // setup our socket XHR handler
-skelenodeSocketXHR(app);
+skelenodeSocketXHR(app, config.get('db.redis.port'), config.get('db.redis.host'), config.get('db.redis.password'), config.get('dispatcher.debug'));
 
 // turn on an audit logger if we need to
 if (config.get('logger.audit.enabled')) {

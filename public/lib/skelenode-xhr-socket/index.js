@@ -100,7 +100,7 @@ function _restoreSubscriptions() {
 }
 
 function subscribe(where, event, callback) {
-	if (!_ensureSocketConnected(api, subscribe, arguments)) {
+	if (!_ensureSocketConnected(this, subscribe, arguments)) {
 		// try again after a little bit
 		setTimeout(function() {
 			subscribe(where, event, callback);

@@ -55,6 +55,10 @@ exports.run = function() {
 			console.log(data);
 		});
 	});
+
+	API.subscribe('example', 'hello-world-event', function() {
+		console.log('recieved hello-world-event!');
+	});
 }
 },{"../lib/skelenode-xhr-socket":3,"backbone":"backbone","jquery":"jquery"}],2:[function(require,module,exports){
 'use strict';
@@ -175,7 +179,7 @@ function _restoreSubscriptions() {
 }
 
 function subscribe(where, event, callback) {
-	if (!_ensureSocketConnected(api, subscribe, arguments)) {
+	if (!_ensureSocketConnected(this, subscribe, arguments)) {
 		// try again after a little bit
 		setTimeout(function() {
 			subscribe(where, event, callback);

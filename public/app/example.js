@@ -54,4 +54,8 @@ exports.run = function() {
 			console.log(data);
 		});
 	});
+
+	API.subscribe('example', 'hello-world-event', function() {
+		console.log('recieved hello-world-event!');
+	});
 }

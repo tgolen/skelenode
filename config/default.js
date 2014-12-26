@@ -15,6 +15,9 @@ module.exports = {
 			password: null
 		}
 	},
+	dispatcher: {
+		debug: true
+	},
 	logger: {
 		audit: {
 			enabled: false
