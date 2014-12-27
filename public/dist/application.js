@@ -11,7 +11,7 @@ exports.run = function() {
 		console.log('socket connected!');
 
 		var testModel = BB.Model.extend({
-			url: '/hello/world'
+			url: '/api/v1/hello/world'
 		});
 		var myModel = new testModel();
 		myModel.fetch({
@@ -27,7 +27,7 @@ exports.run = function() {
 	// make an xhr request
 	$('[data-action="xhr-request"]').on('click', function() {
 		console.log('primary click');
-		API.get('hello/world', null, { disallowSocket: true }, function(data) {
+		API.get('/api/v1/hello/world', null, { disallowSocket: true }, function(data) {
 			console.log(data);
 		});
 	});
@@ -35,7 +35,7 @@ exports.run = function() {
 	// make a bad xhr request
 	$('[data-action="bad-xhr-request"]').on('click', function() {
 		console.log('primary click');
-		API.get('hello/world2', null, { disallowSocket: true }, function(data) {
+		API.get('/api/v1/hello/world2', null, { disallowSocket: true }, function(data) {
 			console.log(data);
 		});
 	});
@@ -43,7 +43,7 @@ exports.run = function() {
 	// make a socket request
 	$('[data-action="socket-request"]').on('click', function() {
 		console.log('info click');
-		API.get('hello/world', function(data) {
+		API.get('/api/v1/hello/world', function(data) {
 			console.log(data);
 		});
 	});
@@ -51,11 +51,12 @@ exports.run = function() {
 	// make a bad socket request
 	$('[data-action="bad-socket-request"]').on('click', function() {
 		console.log('bad click');
-		API.get('hello/world2', function(data) {
+		API.get('/api/v1/hello/world2', function(data) {
 			console.log(data);
 		});
 	});
 
+	console.log('subscribe');
 	API.subscribe('example', 'hello-world-event', function() {
 		console.log('recieved hello-world-event!');
 	});
@@ -67,16 +68,15 @@ exports.run = function() {
 var $ = require('jquery'),
 	BB = require('backbone');
 
-// assign our globals
+// assign our globals or else other libraries will complain
 BB.$ = $;
 window.jQuery = $;
 
-var API = require('../lib/skelenode-xhr-socket');
 var example = require('./example');
 
 console.log('app started!');
 example.run();
-},{"../lib/skelenode-xhr-socket":3,"./example":1,"backbone":"backbone","jquery":"jquery"}],3:[function(require,module,exports){
+},{"./example":1,"backbone":"backbone","jquery":"jquery"}],3:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -135,15 +135,13 @@ function _wrappedAJAX(options) {
 	}
 
 	var method = (options.type || 'GET').toLowerCase(),
-		version = (options && options.version)? 'v' + options.version: 'v1',
-		url = options.url.split('/api/' + version + '/').pop(),
 		data = options.data;
 
 	if (options.dataType === 'json' && data && typeof data === 'string') {
 		data = JSON.parse(data);
 	}
 
-	return module.exports[method](url, data, null, function(evt) {
+	return module.exports[method](options.url, data, null, function(evt) {
 		var fakeXHR = { setRequestHeader: function() {} }
 		if (evt.success) {
 			options.success(evt.result, 'success', fakeXHR);
@@ -222,9 +220,6 @@ function unsubscribe(where, event) {
  */
 function curryMethod(method) {
 	return function (url, data, options, callback) {
-		var version = (options && options.version)? 'v' + options.version: 'v1';
-		url = '/api/' + version + '/' + url;
-
 		if (_.isFunction(options)) {
 			callback = options;
 			options = undefined;
@@ -241,7 +236,7 @@ function curryMethod(method) {
 			// We've got a socket! Emit to it.
 			window.socket.emit('api', {
 				method: method,
-				url: url.replace('/api/'+version+'//', '/api/'+version+'/'),
+				url: url,
 				data: data
 			}, function(data) {
 				if (callback) {

@@ -10,7 +10,7 @@ exports.run = function() {
 		console.log('socket connected!');
 
 		var testModel = BB.Model.extend({
-			url: '/hello/world'
+			url: '/api/v1/hello/world'
 		});
 		var myModel = new testModel();
 		myModel.fetch({
@@ -26,7 +26,7 @@ exports.run = function() {
 	// make an xhr request
 	$('[data-action="xhr-request"]').on('click', function() {
 		console.log('primary click');
-		API.get('hello/world', null, { disallowSocket: true }, function(data) {
+		API.get('/api/v1/hello/world', null, { disallowSocket: true }, function(data) {
 			console.log(data);
 		});
 	});
@@ -34,7 +34,7 @@ exports.run = function() {
 	// make a bad xhr request
 	$('[data-action="bad-xhr-request"]').on('click', function() {
 		console.log('primary click');
-		API.get('hello/world2', null, { disallowSocket: true }, function(data) {
+		API.get('/api/v1/hello/world2', null, { disallowSocket: true }, function(data) {
 			console.log(data);
 		});
 	});
@@ -42,7 +42,7 @@ exports.run = function() {
 	// make a socket request
 	$('[data-action="socket-request"]').on('click', function() {
 		console.log('info click');
-		API.get('hello/world', function(data) {
+		API.get('/api/v1/hello/world', function(data) {
 			console.log(data);
 		});
 	});
@@ -50,11 +50,12 @@ exports.run = function() {
 	// make a bad socket request
 	$('[data-action="bad-socket-request"]').on('click', function() {
 		console.log('bad click');
-		API.get('hello/world2', function(data) {
+		API.get('/api/v1/hello/world2', function(data) {
 			console.log(data);
 		});
 	});
 
+	console.log('subscribe');
 	API.subscribe('example', 'hello-world-event', function() {
 		console.log('recieved hello-world-event!');
 	});

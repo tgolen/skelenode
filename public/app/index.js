@@ -4,11 +4,10 @@
 var $ = require('jquery'),
 	BB = require('backbone');
 
-// assign our globals
+// assign our globals or else other libraries will complain
 BB.$ = $;
 window.jQuery = $;
 
-var API = require('../lib/skelenode-xhr-socket');
 var example = require('./example');
 
 console.log('app started!');

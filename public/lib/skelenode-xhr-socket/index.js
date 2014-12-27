@@ -56,15 +56,13 @@ function _wrappedAJAX(options) {
 	}
 
 	var method = (options.type || 'GET').toLowerCase(),
-		version = (options && options.version)? 'v' + options.version: 'v1',
-		url = options.url.split('/api/' + version + '/').pop(),
 		data = options.data;
 
 	if (options.dataType === 'json' && data && typeof data === 'string') {
 		data = JSON.parse(data);
 	}
 
-	return module.exports[method](url, data, null, function(evt) {
+	return module.exports[method](options.url, data, null, function(evt) {
 		var fakeXHR = { setRequestHeader: function() {} }
 		if (evt.success) {
 			options.success(evt.result, 'success', fakeXHR);
@@ -143,9 +141,6 @@ function unsubscribe(where, event) {
  */
 function curryMethod(method) {
 	return function (url, data, options, callback) {
-		var version = (options && options.version)? 'v' + options.version: 'v1';
-		url = '/api/' + version + '/' + url;
-
 		if (_.isFunction(options)) {
 			callback = options;
 			options = undefined;
@@ -162,7 +157,7 @@ function curryMethod(method) {
 			// We've got a socket! Emit to it.
 			window.socket.emit('api', {
 				method: method,
-				url: url.replace('/api/'+version+'//', '/api/'+version+'/'),
+				url: url,
 				data: data
 			}, function(data) {
 				if (callback) {
