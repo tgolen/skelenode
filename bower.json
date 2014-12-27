@@ -4,6 +4,10 @@
   "description": "A full stack Node.js platform",
   "dependencies": {
     "bootstrap": "~3",
-    "marionette": "~2.3.0"
+    "marionette": "~2.3.0",
+    "skelenode-api": "~0.0.1"
+  },
+  "resolutions": {
+    "underscore": "~1.7.0"
   }
 }

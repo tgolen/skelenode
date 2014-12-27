@@ -3,10 +3,10 @@
 // we have to do this to get marionette working properly
 var $ = require('jquery'),
 	BB = require('backbone'),
-	API = require('../lib/skelenode-xhr-socket');
+	API = require('../lib/skelenode-api');
 
 exports.run = function() {
-	API.connectSocket(function() {
+	API.connect(function() {
 		console.log('socket connected!');
 
 		var testModel = BB.Model.extend({
