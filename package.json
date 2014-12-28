@@ -35,7 +35,8 @@
     "redis": "^0.12.1",
     "request": "^2.51.0",
     "restify": "^2.8.4",
-    "skelenode-model": "0.0.1",
+    "skelenode-dispatcher": "0.0.1",
+    "skelenode-model": "^0.0.2",
     "swagger-node-restify": "^0.1.2",
     "underscore": "^1.7.0",
     "url": "^0.10.1"
