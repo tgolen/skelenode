@@ -28,6 +28,10 @@
 		{
 			"follow_symlinks": true,
 			"path": "/opt/personal/skelenode-example"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/opt/personal/skelenode-socket"
 		}
 	]
 }

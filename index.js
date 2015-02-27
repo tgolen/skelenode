@@ -11,7 +11,7 @@ var chalk = require('chalk'),
 	morgan = require('morgan'),
 	swagger = require('swagger-node-restify'),
 	skelenodeModelLoader = require('skelenode-model/loader'),
-	skelenodeSocketXHR = require('skelenode-socket-xhr');
+	skelenodeSocket = require('skelenode-socket');
 
 exports.start = start;
 
@@ -41,7 +41,7 @@ function start(config) {
 	app.use(morgan('dev'));
 
 	// setup our socket XHR handler
-	skelenodeSocketXHR(app, config.get('db.redis.port'), config.get('db.redis.host'), config.get('db.redis.password'), config.get('dispatcher.debug'));
+	skelenodeSocket(app, config.get('db.redis.port'), config.get('db.redis.host'), config.get('db.redis.password'), config.get('dispatcher.debug'));
 
 	// turn on an audit logger if we need to
 	if (config.get('logger.audit.enabled')) {
