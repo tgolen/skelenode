@@ -11,7 +11,7 @@ This is a full-stack server with the following pieces:
 
 # Installation
 ```
-npm install skelenode-swagger
+npm install skelenode
 ```
 
 # Usage
