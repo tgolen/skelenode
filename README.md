@@ -16,7 +16,13 @@ npm install skelenode
 # Usage
 ```
 var skelenode = require('skelenode');
-skelenode.start();
+
+// shown with an optional config object and the default values
+skelenode.start({
+  pathToViews:  __dirname + '../../app/views',
+  pathToModels: __dirname + '../../app/models',
+  pathToPublic: __dirname + '../../public'
+});
 ```
 
 # Pieces
