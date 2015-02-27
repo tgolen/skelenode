@@ -10,7 +10,7 @@ var chalk = require('chalk'),
 	bunyan = require('bunyan'),
 	morgan = require('morgan'),
 	swagger = require('swagger-node-restify'),
-	skelenodeModelLoader = require('skelenode-model-loader'),
+	skelenodeModelLoader = require('skelenode-model/loader'),
 	skelenodeSocketXHR = require('skelenode-socket-xhr');
 
 exports.start = start;
