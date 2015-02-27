@@ -27,13 +27,13 @@ function start(options) {
 
 	// setup some of our config options
 	if (!options.pathToViews) {
-		options.pathToViews = '../app/views';
+		options.pathToViews = '../../app/views';
 	}
 	if (!options.pathToModels) {
-		options.pathToModels = __dirname + '../app/models';
+		options.pathToModels = __dirname + '../../app/models';
 	}
 	if (!options.pathToPublic) {
-		options.pathToPublic = __dirname + '../public';
+		options.pathToPublic = __dirname + '../../public';
 	}
 
 	// add appropriate middleware
