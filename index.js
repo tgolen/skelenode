@@ -15,7 +15,7 @@ var chalk = require('chalk'),
 
 exports.start = start;
 
-function start(config) {
+function start(options) {
 	// create our server
 	var app = restify.createServer({
 			log: bunyan.createLogger({
@@ -23,7 +23,7 @@ function start(config) {
 				stream: process.stdout
 			})
 		}),
-		options = config || {};
+		options = options || {};
 
 	// setup some of our config options
 	if (!options.pathToViews) {
