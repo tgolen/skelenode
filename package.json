@@ -1,6 +1,6 @@
 {
   "name": "skelenode",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A full stack Node.js platform",
   "main": "index.js",
   "repository": {
@@ -30,9 +30,9 @@
     "redis": "^0.12.1",
     "request": "^2.51.0",
     "restify": "^2.8.4",
-    "skelenode-dispatcher": "0.0.1",
-    "skelenode-model": "^0.0.6",
-    "skelenode-socket": "0.0.2",
+    "skelenode-dispatcher": "*",
+    "skelenode-model": "*",
+    "skelenode-socket": "*",
     "swagger-node-restify": "^0.1.2",
     "underscore": "^1.7.0",
     "url": "^0.10.1"
