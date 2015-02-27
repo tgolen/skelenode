@@ -1,5 +1,4 @@
 # Skelenode
-=========
 
 This is a full-stack server with the following pieces:
 
