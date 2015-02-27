@@ -27,7 +27,7 @@ function start(options) {
 
 	// setup some of our config options
 	if (!options.pathToViews) {
-		options.pathToViews = '../../app/views';
+		options.pathToViews = __dirname + '../../app/views';
 	}
 	if (!options.pathToModels) {
 		options.pathToModels = __dirname + '../../app/models';
