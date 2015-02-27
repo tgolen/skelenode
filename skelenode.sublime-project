@@ -12,6 +12,22 @@
 		{
 			"follow_symlinks": true,
 			"path": "/opt/personal/skelenode-api"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/opt/personal/skelenode-model"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/opt/personal/skelenode-swagger"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/opt/personal/skelenode-dispatcher"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "/opt/personal/skelenode-example"
 		}
 	]
 }
