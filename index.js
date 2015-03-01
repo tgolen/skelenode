@@ -76,7 +76,7 @@ function start(options) {
 	swagger.configureSwaggerPaths('', '/api-docs', '');
 
 	// load all of our models
-	skelenodeModelLoader.init(options.pathToModels);
+	skelenodeModelLoader.init(options.pathToModels, null, true);
 
 	// startup our server
 	app.listen(config.get('port'));
