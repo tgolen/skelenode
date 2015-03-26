@@ -27,18 +27,38 @@ function start(options) {
 
 	// setup some of our config options
 	if (!options.pathToViews) {
-		options.pathToViews = __dirname + '../../app/views';
+		options.pathToViews = __dirname + '/../../app/views';
 	}
 	if (!options.pathToModels) {
-		options.pathToModels = __dirname + '../../app/models';
+		options.pathToModels = __dirname + '/../../app/models';
 	}
 	if (!options.pathToPublic) {
-		options.pathToPublic = __dirname + '../../public';
+		options.pathToPublic = __dirname + '/../../public';
 	}
+    if (!options.cachebuster) {
+        options.cachebuster = config.get('githash');
+    }
 
 	// add appropriate middleware
 	app.use(restify.bodyParser());
 	app.use(morgan('dev'));
+
+    /**
+     * Allow for middleware to be passed through options:
+     * skelenode.start({
+     *     middleware: [
+     *         restify.bodyParser(),
+     *         morgan('dev')
+     *     ]
+     * });
+     *
+     * @param {array} options.middleware
+     */
+    if (options.middleware) {
+        for (var i = options.middleware.length - 1; i >= 0; i--) {
+            app.use(options.middleware[i]);
+        };
+    }
 
 	// setup our socket XHR handler
 	skelenodeSocket(app, config.get('db.redis.port'), config.get('db.redis.host'), config.get('db.redis.password'), config.get('dispatcher.debug'));
@@ -59,13 +79,13 @@ function start(options) {
 	// replace the githash in URLs so that the githash doesn't
 	// have to be an actual directory
 	app.use(function(req, res, next) {
-		req.url = req.url.replace('/'+config.get('githash')+'/', '');
+		req.url = req.url.replace('/'+options.cachebuster+'/', '');
 		next();
 	});
 
 	// server our static files via our githash so they are version
 	// controlled
-	var githashRegex = new RegExp('\/'+config.get('githash')+'\/.*');
+	var githashRegex = new RegExp('\/'+options.cachebuster+'\/.*');
 	app.get(githashRegex, restify.serveStatic({
 		directory: options.pathToPublic
 	}));

@@ -1,6 +1,6 @@
 {
   "name": "skelenode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A full stack Node.js platform",
   "main": "index.js",
   "repository": {
@@ -14,7 +14,10 @@
     "mongoose",
     "framework"
   ],
-  "author": "Tim Golen <tim@golen.net>",
+  "author": {
+    "name": "Tim Golen",
+    "email": "tim@golen.net"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/tgolen/skelenode/issues"
@@ -36,5 +39,29 @@
     "swagger-node-restify": "^0.1.2",
     "underscore": "^1.7.0",
     "url": "^0.10.1"
-  }
+  },
+  "gitHead": "3363d288e14b402346a4fd3af8246160722a0c2e",
+  "_id": "skelenode@1.0.0",
+  "scripts": {},
+  "_shasum": "d50d60bde7541f94050138509f3c4707418ad544",
+  "_from": "skelenode@*",
+  "_npmVersion": "2.4.1",
+  "_nodeVersion": "0.10.32",
+  "_npmUser": {
+    "name": "tgolen",
+    "email": "tim@golen.net"
+  },
+  "maintainers": [
+    {
+      "name": "tgolen",
+      "email": "tim@golen.net"
+    }
+  ],
+  "dist": {
+    "shasum": "d50d60bde7541f94050138509f3c4707418ad544",
+    "tarball": "http://registry.npmjs.org/skelenode/-/skelenode-1.0.0.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/skelenode/-/skelenode-1.0.0.tgz",
+  "readme": "ERROR: No README data found!"
 }
