@@ -1,3 +1,7 @@
+# 1.0.2
+
+* added the query parser middleware by default
+
 # 1.0.1
 
 * added hooks for configuring middleware

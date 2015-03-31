@@ -40,7 +40,8 @@ function start(options) {
     }
 
 	// add appropriate middleware
-	app.use(restify.bodyParser());
+    app.use(restify.bodyParser());
+    app.use(restify.queryParser());
 	app.use(morgan('dev'));
 
     /**
