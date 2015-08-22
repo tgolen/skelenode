@@ -1,3 +1,7 @@
+# 1.0.3
+
+* updated packages to the latest versions
+
 # 1.0.2
 
 * added the query parser middleware by default

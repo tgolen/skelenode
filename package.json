@@ -1,6 +1,6 @@
 {
   "name": "skelenode",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A full stack Node.js platform",
   "main": "index.js",
   "repository": {
@@ -24,15 +24,15 @@
   },
   "homepage": "https://github.com/tgolen/skelenode",
   "dependencies": {
-    "bunyan": "^1.2.3",
-    "chalk": "^0.5.1",
+    "bunyan": "^1.4.0",
+    "chalk": "^1.1.1",
     "config": "^1.9.0",
-    "glob": "^4.3.1",
-    "lodash": "^2.4.1",
+    "glob": "^5.0.14",
+    "lodash": "^3.10.1",
     "morgan": "^1.5.0",
     "redis": "^0.12.1",
     "request": "^2.51.0",
-    "restify": "^2.8.4",
+    "restify": "^4.0.0",
     "skelenode-dispatcher": "*",
     "skelenode-model": "*",
     "skelenode-socket": "*",
