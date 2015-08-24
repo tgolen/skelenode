@@ -1,3 +1,7 @@
+# 1.0.4
+
+* added an option for `staticOnly` which will bypass using the dynamic views
+
 # 1.0.3
 
 * updated packages to the latest versions
