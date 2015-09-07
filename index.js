@@ -76,25 +76,10 @@ function start(options) {
         }));
     }
 
-    if (options.staticOnly) {
-        // use static files
-        var staticServer = function(req, res) {
-            var indexTemplate = _.template(fs.readFileSync(options.pathToPublic + '/index.html').toString());
-            var body = indexTemplate({
-                env: config.get('env'),
-                host: config.get('host'),
-                port: config.get('port'),
-                githash: config.get('githash')
-            });
-            res.writeHead(200, {
-                'Content-Length': Buffer.byteLength(body),
-                'Content-Type': 'text/html'
-            });
-            res.write(body);
-            res.end();
-        };
-        app.get('/', staticServer);
-        app.get(/site\/.*/, staticServer);
+    if (options.indexPaths.length && options.staticIndexHandler && _.isFunction(options.staticIndexHandler)) {
+        _.each(options.indexPaths, function(path) {
+            app.get(path, options.staticIndexHandler);
+        });
     } else {
         // use dynamic server rendered views
         app.get('/', require(options.pathToViews + '/index'));
@@ -114,10 +99,16 @@ function start(options) {
         directory: options.pathToPublic
     }));
 
+    var apidocRegex = new RegExp('\/apidoc\/.*');
+    app.get(apidocRegex, restify.serveStatic({
+        directory: options.pathToPublic,
+        default: 'index.html'
+    }));
+
     // configure swagger
     swagger.setAppHandler(app);
-    swagger.configure('http://petstore.swagger.wordnik.com', '0.1');
-    swagger.configureSwaggerPaths('', '/api-docs', '');
+    swagger.configure('', '0.1');
+    swagger.configureSwaggerPaths('', '', '');
 
     // load all of our models
     skelenodeModelLoader.init(options.pathToModels, null, true);

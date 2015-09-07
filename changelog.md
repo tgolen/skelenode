@@ -1,3 +1,8 @@
+# 1.0.5
+
+* implemented a better configuration option for serving static paths
+* attempted to fix swagger UI but didn't have any luck
+
 # 1.0.4
 
 * added an option for `staticOnly` which will bypass using the dynamic views
